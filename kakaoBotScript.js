@@ -283,10 +283,20 @@ function getCoronaStatus(){
         var info3 = statusInfo.select("li.info_03");
         // 사망자
         var info4 = statusInfo.select("li.info_04");
-        result += "[확진환자]" + "\n" + info1.select("p.info_num").text() + "명\n";
+        result += "[확진환자]" + "\n" + info1.select("p.info_num").get(0).text() + "명\n";
+        result += "[확진환자 증가율]\n" + info1.select("em.info_variation ").get(0).text() + "명\n\n";
         result += "[검사진행]" + "\n" + info2.select("p.info_num").text() + "명\n";
+        result += "[검사진행 증가율]\n" + info2.select("em.info_variation ").get(0).text() + "명\n\n";
         result += "[격리해제]" + "\n" + info3.select("p.info_num").text() + "명\n";
-        result += "[사망자]" + "\n" + info4.select("p.info_num").text() + "명";
+        result += "[격리해제 증가율]\n" + info3.select("em.info_variation ").get(0).text() + "명\n\n";
+        result += "[사망자]" + "\n" + info4.select("p.info_num").get(0).text() + "명\n";
+        result += "[사망자 증가율]\n" + info4.select("em.info_variation ").get(0).text() + "명\n\n";
+
+        result += "[코로나19 해외현황]\n";
+        result += "[확진환자]" + "\n" + info1.select("p.info_num").get(1).text() + "명\n";
+        result += "[확진환자 증가율]\n" + info1.select("em.info_variation ").get(1).text() + "명\n\n";
+        result += "[사망자]" + "\n" + info4.select("p.info_num").get(1).text() + "명\n";
+        result += "[사망자 증가율]\n" + info4.select("em.info_variation ").get(1).text() + "명";
 
         return result;
     }catch(e){
@@ -358,19 +368,30 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
             replier.reply('https://lolchess.gg/profile/kr/'+data);
         }
     }else if(cmd == '/명령어'){
-        var cmdResultMsg = '/날씨 지역' + '\n';
-        cmdResultMsg += '/옵지' + '\n';
-        cmdResultMsg += '/옵지 소환사명' + '\n';
-        cmdResultMsg += '/롤전적 소환사명' + '\n';
-        cmdResultMsg += '/롤체' + '\n';
-        cmdResultMsg += '/롤체' + '\n';
-        cmdResultMsg += '/실검' + '\n';
-        cmdResultMsg += '/로또' + '\n';
-        cmdResultMsg += '/주사위' + '\n';
-        cmdResultMsg += '/이름' + '\n';
-        cmdResultMsg += '/운세 별자리' + '\n';
-        cmdResultMsg += '/코로나' + '\n';
-        cmdResultMsg += '/국내음원차트';
+        var cmdResultMsg = '명령어 목록입니다.\n\n';
+        cmdResultMsg += '↓자세히 보기↓\n\n';
+        cmdResultMsg += '/날씨 지역\n';
+        cmdResultMsg += '- 해당 지역의 현재 날씨를 불러옵니다.\n\n';
+        cmdResultMsg += '/옵지\n';
+        cmdResultMsg += '- 리그오브레전드 전적검색 사이트의 링크를 불러옵니다.\n\n';
+        cmdResultMsg += '/옵지 소환사명\n';
+        cmdResultMsg += '- 소환사명을 검색한 링크를 불러옵니다.\n\n';
+        cmdResultMsg += '/롤전적 소환사명\n';
+        cmdResultMsg += '- 리그오브레전드의 소환사명 전적을 검색하여 간략하게 불러옵니다.\n';
+        cmdResultMsg += '- 솔로랭크, 자유랭크 티어, 최근 5경기 내용, 모스트챔피언 등\n\n';
+        cmdResultMsg += '/실검\n';
+        cmdResultMsg += '- 네이버 실시간 검색어 목록을 불러옵니다.\n\n';
+        cmdResultMsg += '/로또\n';
+        cmdResultMsg += '- 난수를 발생시켜 로또 추첨번호를 불러옵니다.\n\n';
+        cmdResultMsg += '/주사위\n';
+        cmdResultMsg += '- 난수를 발생시켜 주사위의 눈을 불러옵니다.\n\n';
+        cmdResultMsg += '/운세 별자리\n';
+        cmdResultMsg += '- 별자리의 오늘, 내일, 이번주, 이번달 운세를 불러옵니다.\n\n';
+        cmdResultMsg += '/코로나\n';
+        cmdResultMsg += '- 현재 코로나19 국내, 해외 현황을 불러옵니다.\n\n';
+        cmdResultMsg += '/국내음원차트\n';
+        cmdResultMsg += '- 현재 지니뮤직 국내음원차트를 불러옵니다.';
+        
         replier.reply(cmdResultMsg);
     }else if(cmd == '/로또'){
         var lottoResult = getLottoNumber();
@@ -388,7 +409,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB, packageName)
         if(fortune != null){
             replier.reply("[" + data + "의 운세]\n" + fortune);
         }else{
-            replier.reply("이상한거 입력하지 마라");
+            replier.reply("별자리를 제대로 입력해주세요");
         }
     }else if(cmd == '/코로나'){
         var corona = getCoronaStatus();
